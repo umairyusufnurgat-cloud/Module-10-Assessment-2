@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Scanner</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .scan-btn { 
+            background: #007bff; color: white; border: none; 
+            padding: 15px 30px; border-radius: 10px; 
+            font-size: 18px; cursor: pointer; width: 100%; margin: 10px 0;
+        }
+        .scan-btn:hover { background: #0056b3; }
+        textarea { 
+            width: 100%; height: 300px; padding: 15px; 
+            border: 2px solid #ddd; border-radius: 10px; 
+            font-size: 16px; margin: 10px 0;
+        }
+        input[type="text"] {
+            width: 100%; padding: 15px; border: 2px solid #ddd; 
+            border-radius: 10px; font-size: 16px; margin: 10px 0;
+        }
+        .recipe-card {
+            background: white; padding: 20px; margin: 10px 0; 
+            border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        .recipe-card:hover { transform: translateY(-2px); }
+        .hidden { display: none; }
+        #camera { width: 100%; max-width: 400px; border-radius: 10px; }
+        .progress { 
+            background: #e9ecef; height: 10px; border-radius: 5px; 
+            overflow: hidden; margin: 10px 0;
+        }
+        .progress-bar { 
+            background: #007bff; height: 100%; width: 0%; 
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📷 Recipe Scanner</h1>
+        
+        <!-- Main View -->
+        <div id="mainView">
+            <button class="scan-btn" onclick="startCamera()">📱 Scan Recipe</button>
+            <button class="scan-btn" onclick="showAddForm()">✏️ Add Manually</button>
+            
+            <div id="recipesList">
+                <!-- Saved recipes appear here -->
+            </div>
+        </div>
+
+        <!-- Camera View -->
+        <div id="cameraView" class="hidden">
+            <video id="camera" autoplay playsinline></video>
+            <button class="scan-btn" onclick="capturePhoto()">📸 Capture</button>
+            <button class="scan-btn" onclick="stopCamera()">❌ Cancel</button>
+            <canvas id="canvas" class="hidden"></canvas>
+        </div>
+
+        <!-- Processing View -->
+        <div id="processingView" class="hidden">
+            <h3>🔍 Scanning text...</h3>
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p id="statusText">Processing image...</p>
+        </div>
+
+        <!-- Add/Edit Form -->
+        <div id="formView" class="hidden">
+            <h3 id="formTitle">Add Recipe</h3>
+            <input type="text" id="recipeName" placeholder="Recipe Name" required>
+            <textarea id="recipeText" placeholder="Recipe text will appear here..."></textarea>
+            <button class="scan-btn" onclick="saveRecipe()">💾 Save Recipe</button>
+            <button class="scan-btn" onclick="showMain()">❌ Cancel</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
