@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Culinary Canvas - Recipe Book</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">🍳 Culinary Canvas</h1>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search recipes, ingredients..." />
+                    <button class="search-btn">🔍</button>
+                </div>
+                <button class="add-recipe-btn" onclick="showAddRecipe()">+ Add Recipe</button>
+            </div>
+        </header>
+
+        <nav class="category-nav">
+            <button class="category-btn active" onclick="filterRecipes('all')">All</button>
+            <button class="category-btn" onclick="filterRecipes('breakfast')">🥞 Breakfast</button>
+            <button class="category-btn" onclick="filterRecipes('lunch')">🥗 Lunch</button>
+            <button class="category-btn" onclick="filterRecipes('dinner')">🍽️ Dinner</button>
+            <button class="category-btn" onclick="filterRecipes('dessert')">🍰 Dessert</button>
+            <button class="category-btn" onclick="filterRecipes('snack')">🍿 Snacks</button>
+        </nav>
+
+        <main class="main-content">
+            <div class="recipes-grid" id="recipesGrid">
+                <!-- Recipes will be populated by JavaScript -->
+            </div>
+        </main>
+
+        <!-- Recipe Detail Modal -->
+        <div class="modal" id="recipeModal" style="display: none;">
+            <div class="modal-content recipe-detail">
+                <button class="close-btn" onclick="closeRecipeModal()">&times;</button>
+                <div class="recipe-hero">
+                    <img id="modalImage" src="" alt="Recipe">
+                    <div class="recipe-overlay">
+                        <h2 id="modalTitle"></h2>
+                        <div class="recipe-meta">
+                            <span id="modalTime"></span>
+                            <span id="modalDifficulty"></span>
+                            <span id="modalServings"></span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="recipe-content">
+                    <div class="ingredients-section">
+                        <h3>🥄 Ingredients</h3>
+                        <ul id="modalIngredients"></ul>
+                    </div>
+                    <div class="instructions-section">
+                        <h3>👩‍🍳 Instructions</h3>
+                        <ol id="modalInstructions"></ol>
+                    </div>
+                    <div class="recipe-actions">
+                        <button class="edit-recipe-btn" onclick="editRecipe()">✏️ Edit Recipe</button>
+                        <button class="delete-recipe-btn" onclick="deleteRecipe()">🗑️ Delete Recipe</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Recipe Modal -->
+        <div class="modal" id="addRecipeModal" style="display: none;">
+            <div class="modal-content add-recipe-form">
+                <button class="close-btn" onclick="hideAddRecipe()">&times;</button>
+                <h2>Create New Recipe</h2>
+                <form id="recipeForm">
+                    <div class="form-group">
+                        <label>Recipe Name</label>
+                        <input type="text" id="recipeName" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="recipeCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="breakfast">Breakfast</option>
+                                <option value="lunch">Lunch</option>
+                                <option value="dinner">Dinner</option>
+                                <option value="dessert">Dessert</option>
+                                <option value="snack">Snack</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Cooking Time</label>
+                            <input type="text" id="recipeTime" placeholder="e.g., 30 mins" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Difficulty</label>
+                            <select id="recipeDifficulty" required>
+                                <option value="">Select Difficulty</option>
+                                <option value="Easy">Easy</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Hard">Hard</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Servings</label>
+                            <input type="number" id="recipeServings" min="1" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Scan Recipe (OCR)</label>
+                        <div class="scan-container">
+                            <input type="file" id="scanFile" accept="image/*,application/pdf" onchange="handleScanUpload(event)">
+                            <button type="button" class="scan-btn" onclick="document.getElementById('scanFile').click()">
+                                📷 Scan Recipe from Image/PDF
+                            </button>
+                            <div id="scanProgress" style="display: none; margin-top: 0.5rem;">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                                <p id="scanStatus">Processing...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Recipe Image</label>
+                        <div class="image-input-container">
+                            <input type="file" id="recipeImageFile" accept="image/*" onchange="handleImageUpload(event)">
+                            <input type="url" id="recipeImage" placeholder="Or paste image URL" style="margin-top: 0.5rem;">
+                        </div>
+                        <div class="image-preview" id="imagePreview" style="display: none;">
+                            <img id="previewImg" src="" alt="Preview" style="max-width: 200px; max-height: 150px; border-radius: 10px; margin-top: 0.5rem;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ingredients (one per line)</label>
+                        <textarea id="recipeIngredients" rows="5" placeholder="1 cup flour&#10;2 eggs&#10;1/2 cup milk" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Instructions (one step per line)</label>
+                        <textarea id="recipeInstructions" rows="6" placeholder="Preheat oven to 350°F&#10;Mix dry ingredients&#10;Add wet ingredients" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Create Recipe</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/tesseract.js@v4.1.1/dist/tesseract.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
