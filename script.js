@@ -99,7 +99,7 @@ async function processImageWithOCR(imageBlob) {
         statusText.textContent = 'Analyzing with Google Vision...';
         
         // Google Cloud Vision API call
-        const response = await fetch('https://vision.googleapis.com/v1/images:annotate?key=YOUR_API_KEY', {
+        const response = await fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyCNetldSuYGRmrT4EgSxlkkayb6kSJMnlw', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
