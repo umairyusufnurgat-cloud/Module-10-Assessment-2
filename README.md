@@ -6,7 +6,7 @@ Welcome to *Culinary Canvas*, a front-end web project designed to celebrate the 
 ---
 
 ## 🚀 Live Demo  
-🔗 [View the site on GitHub Pages](https://umairyusufnurgat-cloud.github.io/Module-10-Assessment-1/)
+🔗 [View the site on GitHub Pages](https://umairyusufnurgat-cloud.github.io/Module-10-Assessment-2/)
 
 ---
 
